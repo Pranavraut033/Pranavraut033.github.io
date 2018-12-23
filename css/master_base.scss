@@ -1,0 +1,146 @@
+$primary-color: 		map-get($theme-colors, "primary");
+$light-color:			map-get($theme-colors, "light");
+$danger-color:			map-get($theme-colors, "danger");
+$danger-dark: 			darken($danger-color, 10%);
+$flim: 					rgba(0,0,0,0.22);
+
+body.border * {
+	border: 1px solid red;
+}
+
+.bg-flim {
+	background-color: $flim;
+}
+
+@include media-breakpoint-up(md) {
+	#page-silder {
+		display: none;
+	}		
+}
+
+#page-slider {
+	position: fixed;
+	top: 25%;
+	right: 0;
+	height: 50%;
+	z-index: 99;
+}
+
+#page-slider>.handle {
+	@extend .p-2, .bg-secondary;
+	width: .8rem;
+	height: 75%;
+	opacity: 0.4;
+	border-radius: .5rem;
+	border-top-left-radius: 1.6rem;
+	border-bottom-left-radius: 1.6rem;
+	transition: 400ms cubic-bezier(0.18, 0.89, 0.32, 1.28);
+	box-shadow:  0px .8rem 3rem rgba(0, 0, 0, 0.6);
+}
+
+#page-slider:hover>.handle {
+	transition: 550ms cubic-bezier(0.68, -0.55, 0.27, 1.55);
+	margin-right: map-get($map: $spacers, $key: 2);
+	border-radius: 1.6rem;
+	width: 2rem;
+	opacity: 1;
+	height: 100%;
+	background: white !important;
+}
+
+#banner {
+	@extend .text-light;
+	height: 100vh;
+	background-image: url(../images/background.png);
+	background-repeat: no-repeat;
+	background-size: cover;
+	padding: 0px;
+	
+	@include media-breakpoint-down(md) {
+		.bg-flim {
+			padding: map-get($spacers, 5);
+		}
+	}
+	@include media-breakpoint-up(lg) {
+		.bg-flim {
+			padding: map-get($spacers, 55);
+		}
+	}
+
+	.bg-flim {
+		padding: map-get($spacers, 4);
+		height: inherit;
+		width: inherit;
+	}
+	
+	#logo-bar {
+		@extend .col-12, .text-center, .mb-4, .mb-lg-5;
+
+		@include media-breakpoint-between(md, xl) {
+			.logo {
+				height: 6rem;
+				width: 6rem;
+			}
+		}
+
+		.logo {
+			@extend .rounded-circle, .p-3, .mb-3;
+			box-shadow: 0 0 1em $flim;
+			background-color: $flim;
+			height: 5rem;
+			width: 5rem;
+		}
+	}
+
+	#profile {
+		@extend .col-md, .col-lg-3, .text-center;
+			
+		@include media-breakpoint-between(md, xl) {
+			img {
+				height: 12rem;
+				width: 12rem;
+			}
+		}
+
+		img {
+			@extend .img-fluid;
+			border-radius: 50px 20px 10px 20px / 50px 120px 10px 120px;
+			box-shadow: 4px 5px 10px $flim;
+			height: 8rem;
+			width: 8rem;
+		}
+	}
+	
+	.content {
+		@extend .col-md, .offset-lg-1, .col-lg-8, .mt-md-0, .mt-5, .text-center, .text-md-left;	
+	}
+
+	.indicator {
+		@extend .p-2, .text-center;
+		position: absolute;
+		bottom: 0;
+		right: 50%;
+		width: 2.4rem;
+		margin-left: -1.2rem;
+		background: white;
+		margin: auto 0;
+		border-radius: 20px 20px 0px 0px;
+		height: 80px;
+
+		.bubble-base {
+			position: absolute;
+			bottom:0;
+			left: 50%;
+			margin-left: -.5rem;
+			border: .5px solid gray;
+			background: red;
+			border-radius: 1.8rem;
+			height: 1rem;
+			width: 1rem;
+		}
+	}
+}
+/* END */
+
+// LIB
+@import url('https://fonts.googleapis.com/css?family=Comfortaa:400,700|Cutive+Mono|Gugi|Righteous|Varela+Round');
