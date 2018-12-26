@@ -23,13 +23,13 @@ $spacer-2:				map-get($map: $spacers, $key: 2);
 $flim: 					rgba(0,0,0,0.22);
 /* ###################################################################################### */
 
-body.border * {
-	border: 1px solid red;
-	
+body  {
+	&.border * {
+		border: 1px solid red;
+	}
 	&::-webkit-scrollbar {
 		width: .8rem;
 		border-right: 1px solid $secondary-color;
-		//TODO: only enable is js for page-slider is loaded
 	}
 	&::-webkit-scrollbar-track {
 		background-color: $light-color;
@@ -40,7 +40,7 @@ body.border * {
 		border-radius: $border-radius;
 	}
 	&::-webkit-scrollbar-button {
-		height: 10px;
+		min-height: 10px;
 		border-right: 1px solid $secondary-color;
 	}
 }
@@ -49,109 +49,130 @@ body.border * {
 }
 
 .page {
-	height: 100vh;
+	@extend .bg-light, .container-fluid;
+	min-height: 100vh;
+	box-shadow: 0px 0px 5px rgba(#000, 0.5);
 }
 
-@include media-breakpoint-down(sm) {
-	#page-slider {
-		display: none;
-	}
-}
-
-#page-slider {
+#social {	
 	position: fixed;
-	top: 42%;
-	transform: translateY(-25%);
-	left: 0;
-	height: 45%;
-	padding: .5rem 2rem 0 0;
+	top: 14%;
+	right: 1rem;
 
-	&>.handle {
-		$item-size: 		2rem;
-		$item-size-small: 	1.4rem;
-		$item-transiton: 	300ms cubic-bezier(0.68, -0.55, 0.27, 1.55) 150ms;
-		$num-display-item: 	3;
-		$num-items: 		6;
-		$item-details: (
-			1 : (
-				"text" : "Awesomeness",
-				"color" : red),
-			2 : (
-				"text" : "Skills", 
-				"color": green),
-			3 : (
-				"text" : "Achievements", 
-				"color": blue),
-			4 : (
-				"text" : "Projects", 
-				"color": yellow),
-			5 : (
-				"text" : "hi", 
-				"color": orange),
-			6 : (
-				"text" : "hello", 
-				"color": lightblue)
-		);
+	$item-size: 		2rem;
+	$item-size-sm: 		1.6rem !important;
+	$item-size-lg: 		2.3rem !important;
+	$trigger-size:		$item-size + 2 * $spacer-2;
+	$trigger-size-sm:	2 * $spacer-2 + 1.6rem !important;
+	$trigger-size-lg:	2 * $spacer-2 + 2.3rem !important;
+	$item-transiton: 	300ms cubic-bezier(0.68, -0.55, 0.27, 1.55) 150ms;
+	$num-display-item: 	3;
+	$num-items: 		6;
+	$item-details: (
+		1 : (
+			"text" : "Github", 
+			"color": #323030),
+		2 : (
+			"text" : "Linkedin", 
+			"color": #006EAB),
+		3 : (
+			"text" : "Instagram",
+			"color" : #F74151),
+		4 : (
+			"text" : "Facebook", 
+			"color": #465EA9),
+		5 : (
+			"text" : "Twitter", 
+			"color": #0095E8),
+		6 : (
+			"text" : "Google Plus", 
+			"color": #F54541),
+	);
 
-		@extend .p-2, .text-center, .bg-secondary, .border, .border-dark;
-		width: 2rem;
-		opacity: .65;
-		z-index: 15;
-		border-radius: .15rem 3rem 3rem .15rem / .15rem 7rem 7rem .15rem;
-		box-shadow: -2px 0px 16px rgba(0, 0, 0, 0.6);
-		transition: 450ms cubic-bezier(1, -0.116, 0.724, 1.368);
-
+	@include media-breakpoint-up(lg) {
+		&>.trigger{
+			min-width: $trigger-size-lg ;
+			min-height: $trigger-size-lg;
+		}
+	}
+	@include media-breakpoint-down(sm) {
+		&>.trigger{
+			min-width: $trigger-size-sm;
+			min-height: $trigger-size-sm;
+		}
+	}
+	.title {
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: max-content;
+		padding: 1rem;
+		z-index: -1;
+		color: white;
+		background: linear-gradient(-95deg, #41414103 10%, rgba($primary-color, .6) 80%);
+		opacity: 0;
+		transition: $item-transiton;
+		text-shadow: 1px 2px 2px rgba(0,0,0,0.42);
+		border-radius: $border-radius 0 0 $border-radius;
+	}
+	&>.trigger {
+		padding: 1rem;
+		opacity: .62;
+		margin-right: -3rem;
+		margin-top: -.5rem;
+		transition: $item-transiton;
+		
 		.items {
-			margin-left: -$item-size / 1.4;
-			transition: $item-transiton;
-			height: 100%;
+			@extend .text-center, .bg-light, .border, .border-dark;
+			border-radius: $border-radius;
+			box-shadow: 1px 3px 6px rgba(0, 0, 0, 0.6);
+			transition: 450ms cubic-bezier(1, -0.116, 0.724, 1.368);
 
 			a {
-				@extend .m-2, .border, .bg-light, .border-light;
-				cursor: default;
-				height: .35rem;
-				width: $item-size / 1.5;
-				display: block;
-				border-width: 2px !important;
-				border-radius: .35rem;
-				transition: $item-transiton;
-			}
-			:nth-child(1n + #{$num-display-item + 1}) {
-				width: 0;
+				@extend .m-0, .p-0, .d-block;
 				height: 0;
-				border-width: 0 !important;
+				border: 0px solid red;
+				width: $item-size - $spacer-2 / 2;
+				border-radius: $border-radius;
 				transition: $item-transiton;
+
+				img {
+					padding: 0px;
+					height: 100%;
+					width: 100%;
+					background: transparent !important;
+					transition: $item-transiton;
+				}
 			}
 			.label {
 				position: absolute;			
 				top: 2.64rem;
 				opacity: 0;
 				transition: $item-transiton;
-				transition-delay: 150ms;
-			
-				&::before {
-					content: "";
-					left: 1.5rem;
-					position: absolute;
-					border: 0.25rem solid $light-color;
-					border-top-left-radius: inherit;
-					border-bottom-left-radius: 0.625em;
-					box-shadow: -2px 2px 3px rgba(0, 0, 0, 0.35);
-				}
+
 				&::after {
-					@extend .px-3;
-					content: map-get(map-get($item-details, 1), "text");
+					@extend .px-3, .bg-light, .border ,.border-secondary, .text-secondary;
+					content: "Awesomeness";
 					position: absolute;
-					height: 2rem;
-					top: -.8rem;
-					left: 1.89rem;
-					min-width: 8rem;
+					min-height: 2rem;
+					min-width: 8.5rem;
+					top: -1rem;
+					right: .4rem;
 					line-height: 2rem;
-					background: $light-color;
-					border-radius: 2.8em 2rem 2rem 2.8rem;
+					border-radius: 2em 2.8rem 2.8rem 2rem;
 					box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.6);
 				}
 			}
+			:first-child.fac {
+				@extend .m-2, .border, .border-light;
+				height: $item-size - $spacer-2 / 2;
+				width: $item-size - $spacer-2 / 2;
+				border-width: 2px !important;
+				img {
+					filter: invert(75%);
+				}
+			}
+
 			@for $i from 1 to $num-items + 1 {
 				:nth-child(#{$i}):hover~.label::after {
 					content: map-get(map-get($item-details, $i), "text");
@@ -160,47 +181,57 @@ body.border * {
 		}
 
 		&:hover, &:active,  {
-			width: 3.53rem;
-			margin-left: $spacer-2;
 			opacity: 1;
-			background: $light-color !important;
-			border-radius: 2 * $item-size;
-			box-shadow: 1px 3px 12px rgba(0, 0, 0, 0.6);
-			transition: $item-transiton;
-			transition-duration: 400ms;
+			margin: 0;
 
 			.items {
-				margin-left: 0;
-				transition: $item-transiton;
+				border-radius: 2 * $item-size;
+				box-shadow: 2px 4px 7px rgba(0, 0, 0, 0.5);
 
+				@include media-breakpoint-up(lg) {
+					a {
+						height: $item-size-lg;
+						width: $item-size-lg;
+					}
+				}
+				@include media-breakpoint-down(sm) {
+					a {
+						height: $item-size-sm;
+						width: $item-size-sm;
+					}
+				}
 				a {
-					@extend .my-3;
-					border: 4px solid $light-color !important;
-					height: $item-size-small;
-					width: $item-size-small;
-					border-radius: $item-size-small;;
-					transition: $item-transiton;
-					color: transparent;
-				
-					&:hover~.label {
-						opacity: 1;
+					@extend .m-2, .p-1, .border, .border-light;
+					height: $item-size;
+					width: $item-size;
+					border-width: 2px !important;
+					img {
+						padding: 4px !important;
+						filter: invert(0%) !important;
 						transition: $item-transiton;
+					}
+					&:hover~.label {
+						opacity: .86;
+						transition-delay: 300ms;
 					}
 				}
 				@for $i from 2 to $num-items + 1 {
 					:nth-child(#{$i}):hover~.label {
-						top:  2.446rem * $i;
-						transition: $item-transiton;
+						top: 2.785rem * $i;
+						transition-delay: 0ms;
 					}
 				}
 				@for $i from 1 to $num-items + 1 {
 					:nth-child(#{$i}) {
-						font-size: 0;
-						background-color: map-get(map-get($item-details, $i), "color") !important;
-						transition: $item-transiton;
+						background-color: map-get(map-get($item-details, $i), "color");
 					}
 				}
 			}
+		}
+		&:hover~.title{
+			opacity: 1;
+			top: -2.2rem;
+			right: 5.6rem;
 		}
 	}
 }
@@ -211,7 +242,6 @@ body.border * {
 	background-repeat: no-repeat;
 	background-size: cover;
 	
-
 	@include media-breakpoint-down(lg) {
 		.bg-flim {
 			padding: map-get($spacers, 5) !important;
@@ -224,8 +254,7 @@ body.border * {
 		}
 	}
 	.bg-flim {
-		height: inherit;
-		width: inherit;
+		min-height: inherit;
 		padding: map-get($spacers, 55);
 	}
 	
@@ -238,16 +267,16 @@ body.border * {
 
 		@include media-breakpoint-between(md, xl) {
 			.logo {
-				height: 6rem !important;
-				width: 6rem !important;
+				min-height: 6rem !important;
+				min-width: 6rem !important;
 			}
 		}
 		.logo {
 			@extend .rounded-circle, .p-3, .mb-3;
 			box-shadow: 0 0 1em $flim;
 			background-color: $flim;
-			height: 5rem;
-			width: 5rem;
+			min-height: 5rem;
+			min-width: 5rem;
 		}
 	}
 
@@ -256,17 +285,18 @@ body.border * {
 
 		@include media-breakpoint-up(md) {
 			img {
-				height: 10rem !important;
-				width: 10rem !important;
+				min-height: 10rem !important;
+				min-width: 10rem !important;
 			}
 		}
 		img {
 			@extend .img-fluid;
-			height: 8rem;
-			width: 8rem;
+			min-height: 8rem;
+			min-width: 8rem;
 			border-radius: 60px 40px 20px 40px / 60px 140px 20px 140px;
 			box-shadow: 1px 2px 3px $flim;
 			transition: 600ms  cubic-bezier(0.175, 0.885, 0.32, 1.275);
+			background-color: cadetblue;
 		}
 		img:hover {
 			transform: scale(1.12);
